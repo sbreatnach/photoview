@@ -25,7 +25,7 @@ ENV REACT_APP_BUILD_COMMIT_SHA=${COMMIT_SHA:-}
 
 WORKDIR /app/ui
 
-COPY ui/package.json ui/package-lock.json /app/ui
+COPY ui/package.json ui/package-lock.json /app/ui/
 RUN npm ci
 
 COPY ui/ /app/ui
@@ -36,7 +36,7 @@ RUN if [ "${BUILD_DATE}" = "undefined" ]; then \
   npm run build -- --base=$UI_PUBLIC_URL
 
 ### Build API ###
-FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.23-bookworm AS api
+FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.23-bullseye AS api
 ARG TARGETPLATFORM
 
 # See for details: https://github.com/hadolint/hadolint/wiki/DL4006
@@ -70,7 +70,7 @@ RUN source /app/scripts/set_compiler_env.sh \
   && go build -v -o photoview .
 
 ### Build release image ###
-FROM --platform=${BUILDPLATFORM:-linux/amd64} debian:bookworm-slim AS release
+FROM --platform=${BUILDPLATFORM:-linux/amd64} debian:bullseye-slim AS release
 ARG TARGETPLATFORM
 
 # See for details: https://github.com/hadolint/hadolint/wiki/DL4006

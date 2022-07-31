@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt-get update
-apt-get install -y curl libdlib19.1 ffmpeg exiftool libheif1
+apt-get install -y curl libdlib19 ffmpeg exiftool libheif1
 
 # Install Darktable if building for a supported architecture
 if [ "${TARGETPLATFORM}" = "linux/amd64" ] || [ "${TARGETPLATFORM}" = "linux/arm64" ]; then

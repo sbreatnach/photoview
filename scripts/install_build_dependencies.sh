@@ -4,12 +4,15 @@ set -e
 if [ "$TARGETPLATFORM" == "linux/arm64" ]; then
   dpkg --add-architecture arm64
   DEBIAN_ARCH='arm64'
+  GO_ARCH='arm64'
 elif [ "$TARGETPLATFORM" == "linux/arm/v6" ] || [ "$TARGETPLATFORM" == "linux/arm/v7" ]; then
   dpkg --add-architecture armhf
   DEBIAN_ARCH='armhf'
+  GO_ARCH='armv6l'
 else
   dpkg --add-architecture amd64
   DEBIAN_ARCH='amd64'
+  GO_ARCH='amd64'
 fi
 
 apt-get update
@@ -36,7 +39,9 @@ apt-get install -y \
   libatlas-base-dev:${DEBIAN_ARCH} \
   liblapack-dev:${DEBIAN_ARCH} \
   libjpeg-dev:${DEBIAN_ARCH} \
-  libheif-dev:${DEBIAN_ARCH}
+  libheif-dev:${DEBIAN_ARCH} \
+  pkg-config:${DEBIAN_ARCH} \
+  build-essential:${DEBIAN_ARCH}
 
 # Install tools for development
 apt-get install -y reflex sqlite3
